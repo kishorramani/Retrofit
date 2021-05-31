@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         val viewModelFactory = MainViewModelFactory(repository)
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
 
+        //https://jsonplaceholder.typicode.com/posts/1
         /*viewModel.getPost()
         viewModel.myResponse.observe(this, Observer { response ->
             if (response.isSuccessful) {
@@ -48,14 +49,15 @@ class MainActivity : AppCompatActivity() {
             }
         })*/
 
+        //https://jsonplaceholder.typicode.com/posts/15
         /*viewModel.getPost2(15)
         viewModel.myResponse2.observe(this, Observer { response ->
             if (response.isSuccessful) {
-                Log.e(TAG, "Response: ${response.body()?.toString()}")
-                Log.d(TAG, "Response: ${response.body()?.userId.toString()}")
-                Log.d(TAG, "onCreate: ${response.body()?.id.toString()}")
-                Log.d(TAG, "onCreate: ${response.body()?.title}")
-                Log.d(TAG, "onCreate: ${response.body()?.body}")
+                Log.e(TAG, "Response1: ${response.body()?.toString()}")
+                Log.d(TAG, "Response1: ${response.body()?.userId.toString()}")
+                Log.d(TAG, "onCreate1: ${response.body()?.id.toString()}")
+                Log.d(TAG, "onCreate1: ${response.body()?.title}")
+                Log.d(TAG, "onCreate1: ${response.body()?.body}")
                 txtData.text = response.body()?.toString()
             } else {
                 Log.e(TAG, "onCreate: ${response.errorBody().toString()}")
@@ -63,16 +65,17 @@ class MainActivity : AppCompatActivity() {
             }
         })*/
 
+        //https://jsonplaceholder.typicode.com/posts?userId=7
         /*viewModel.getCustomPost(3)
         viewModel.myCustomPost.observe(this, Observer { response ->
             if (response.isSuccessful) {
                 Log.e(TAG, "Response: ${response.body()?.toString()}")
                 response.body()?.forEach {
-                    Log.d(TAG, "Response: ${it.userId.toString()}")
-                    Log.d(TAG, "Response: ${it.id.toString()}")
-                    Log.d(TAG, "Response: ${it.title}")
-                    Log.d(TAG, "Response: ${it.body}")
-                    Log.d(TAG, "Response: ---------------------------------")
+                    Log.d(TAG, "Response2: ${it.userId.toString()}")
+                    Log.d(TAG, "Response2: ${it.id.toString()}")
+                    Log.d(TAG, "Response2: ${it.title}")
+                    Log.d(TAG, "Response2: ${it.body}")
+                    Log.d(TAG, "Response2: ---------------------------------")
                 }
                 txtData.text = response.body()?.toString()
             } else {
@@ -81,10 +84,16 @@ class MainActivity : AppCompatActivity() {
             }
         })*/
 
-        /*viewModel.getCustomPost2(3, "id", "desc")
+        //https://jsonplaceholder.typicode.com/posts?userId=7&_sort=id&_order=desc
+        viewModel.getCustomPost2(3, "id", "desc")
         viewModel.myCustomPost2.observe(this, Observer { response ->
             if (response.isSuccessful) {
                 Log.e(TAG, "Response: ${response.body()?.toString()}")
+
+                response.body()?.let {
+                    myAdapter.setData(it)
+                }
+
                 response.body()?.forEach {
                     Log.d(TAG, "Response: ${it.userId.toString()}")
                     Log.d(TAG, "Response: ${it.id.toString()}")
@@ -97,8 +106,10 @@ class MainActivity : AppCompatActivity() {
                 Log.e(TAG, "onCreate: ${response.errorBody().toString()}")
                 txtData.text = response.code().toString()
             }
-        })*/
+        })
 
+        //https://jsonplaceholder.typicode.com/posts?userId=7&_sort=id&_order=desc
+        //link as above request but here we add params using hashmap
         /*val options: HashMap<String, String> = HashMap()
         options["_sort"] = "id"
         options["_order"] = "desc"
@@ -124,6 +135,9 @@ class MainActivity : AppCompatActivity() {
             }
         })*/
 
+
+        //https://jsonplaceholder.typicode.com/posts
+        //body - Post(userId=2, id=5, title=Title, body=Description)
         /*val myPost = Post(2, 5, "Title", "Description")
         viewModel.pushPost(myPost)
         viewModel.myResponse.observe(this, Observer { response ->
@@ -136,6 +150,9 @@ class MainActivity : AppCompatActivity() {
             }
         })*/
 
+
+        //https://jsonplaceholder.typicode.com/posts
+        //body - Post(userId=2, id=5, title=Title, body=Description)
         /*viewModel.pushPost2(2, 2, "Kishor", "Android Application Developer")
         viewModel.myResponse.observe(this, Observer { response ->
             if (response.isSuccessful) {
@@ -147,6 +164,7 @@ class MainActivity : AppCompatActivity() {
             }
         })*/
 
+        //https://jsonplaceholder.typicode.com/posts/1
         /*viewModel.getPost1()
         viewModel.myResponse.observe(this, Observer { response ->
             if (response.isSuccessful) {
@@ -163,6 +181,11 @@ class MainActivity : AppCompatActivity() {
             }
         })*/
 
+        //here, header is different; see simpleApi.kt
+        //@Headers(
+        //        "Authorization: 123123123",
+        //        "Platform: Android"
+        //    )
         /*viewModel.getPost2()
         viewModel.myResponse.observe(this, Observer { response ->
             if (response.isSuccessful) {
@@ -179,7 +202,8 @@ class MainActivity : AppCompatActivity() {
             }
         })*/
 
-        viewModel.getPost3("11112222")
+        //add header dynamically - auth: 11112222
+       /* viewModel.getPost3("11112222")
         viewModel.myResponse.observe(this, Observer { response ->
             if (response.isSuccessful) {
                 Log.e(TAG, "Response: ${response.body()?.toString()}")
@@ -193,7 +217,7 @@ class MainActivity : AppCompatActivity() {
                 Log.e(TAG, "onCreate: ${response.errorBody().toString()}")
                 txtData.text = response.code().toString()
             }
-        })
+        })*/
     }
 
     private fun init() {

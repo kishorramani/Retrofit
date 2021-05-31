@@ -1,5 +1,6 @@
 package com.kishorramani.retrofit.api
 
+import android.util.Log
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
@@ -13,6 +14,7 @@ class MyInterceptor : Interceptor {
             .addHeader("X-Platform", "Android")
             .addHeader("X-Auth-Token", "123456")
             .build()
+        Log.e("Request", "$request")
         return chain.proceed(request)
     }
 }

@@ -6,7 +6,7 @@ import retrofit2.http.*
 
 interface SimpleApi {
 
-    //Step1: Get request
+    //Step1: Get request - https://jsonplaceholder.typicode.com/posts/1
     @GET("posts/1")
     suspend fun getPost(): Response<Post>
 
@@ -19,6 +19,7 @@ interface SimpleApi {
 
     //step2b: Add
     //link - https://jsonplaceholder.typicode.com/posts?userId=7
+    //to add userId - in postman we have to use Params
     @GET("posts")
     suspend fun getCustomPost(
         @Query("userId") userId: Int
@@ -35,6 +36,7 @@ interface SimpleApi {
 
     //step2d: Reduce query parameter, You can add multiple query using hashmap
     //link: - same as above
+    //https://jsonplaceholder.typicode.com/posts?userId=7&_sort=id&_order=desc
     @GET("posts")
     suspend fun getCustomPost3(
         @Query("userId") userId: Int,
