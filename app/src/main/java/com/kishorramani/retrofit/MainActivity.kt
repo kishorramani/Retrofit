@@ -6,10 +6,14 @@ import android.util.Log
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.kishorramani.retrofit.api.RetrofitInstance
 import com.kishorramani.retrofit.model.Post
 import com.kishorramani.retrofit.repository.Repository
+import retrofit2.HttpException
+import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
 
@@ -85,7 +89,7 @@ class MainActivity : AppCompatActivity() {
         })*/
 
         //https://jsonplaceholder.typicode.com/posts?userId=7&_sort=id&_order=desc
-        viewModel.getCustomPost2(3, "id", "desc")
+        /*viewModel.getCustomPost2(3, "id", "desc")
         viewModel.myCustomPost2.observe(this, Observer { response ->
             if (response.isSuccessful) {
                 Log.e(TAG, "Response: ${response.body()?.toString()}")
@@ -106,7 +110,26 @@ class MainActivity : AppCompatActivity() {
                 Log.e(TAG, "onCreate: ${response.errorBody().toString()}")
                 txtData.text = response.code().toString()
             }
-        })
+        })*/
+
+        //call getCustomPost2 api without mvvvm
+        lifecycleScope.launchWhenCreated {
+            val response = try {
+                RetrofitInstance.api.getCustomPost2(3, "id", "desc")
+            } catch (e: IOException) {
+                Log.e(com.kishorramani.retrofit2.TAG, "IOException, You might not have internet connection")
+                return@launchWhenCreated
+            } catch (e: HttpException) {
+                Log.e(com.kishorramani.retrofit2.TAG, "HttpException, unexpected response")
+                return@launchWhenCreated
+            }
+
+            if (response.isSuccessful && response.body() != null) {
+                myAdapter.setData(response.body()!!)
+            } else {
+                Log.e(com.kishorramani.retrofit2.TAG, "Response not successful")
+            }
+        }
 
         //https://jsonplaceholder.typicode.com/posts?userId=7&_sort=id&_order=desc
         //link as above request but here we add params using hashmap
